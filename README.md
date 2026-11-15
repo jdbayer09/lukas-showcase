@@ -15,7 +15,7 @@ Es un proyecto personal que construyo de punta a punta: producto, diseño, app A
 | Infraestructura | `0.3.0` | En producción |
 | Web y landing | — | Scaffold (Angular 22, Astro 7) |
 
-<sub>Última actualización: 2026-11-15 · desde el commit `1facb1c` del repo privado.</sub>
+<sub>Última actualización: 2026-11-15 · desde el commit `84090ec` del repo privado.</sub>
 
 ## Capturas
 
@@ -29,24 +29,10 @@ Es un proyecto personal que construyo de punta a punta: producto, diseño, app A
 
 ## Arquitectura
 
-```mermaid
-flowchart LR
-  subgraph Teléfono
-    UI[Compose UI] --> VM[ViewModels + StateFlow]
-    VM --> Room[(Room + SQLCipher<br/>fuente de verdad)]
-    Room --> Outbox[Outbox]
-    Outbox --> WM[WorkManager<br/>sync con backoff]
-  end
-  WM -- "POST /api/v1/sync<br/>lote idempotente" --> GW[nginx<br/>puerta de entrada]
-  App[AppAuth] -- "OIDC + PKCE" --> KC[Keycloak]
-  subgraph Servidor["Servidor (Docker Compose, detrás de Cloudflare Tunnel)"]
-    GW --> API[API Spring WebFlux<br/>hexagonal por feature]
-    GW --> KC
-    API --> PG[(PostgreSQL 18<br/>R2DBC + Flyway)]
-    API --> RD[(Redis<br/>idempotencia y rate limit)]
-    API -- "JWT + back-channel logout" --> KC
-  end
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="diagramas/arquitectura-oscuro.png">
+  <img src="diagramas/arquitectura-claro.png" width="560" alt="Arquitectura: en el teléfono, pantallas Compose, ViewModels, base local cifrada (Room + SQLCipher), outbox y WorkManager; la sincronización y el login pasan por Cloudflare Tunnel a nginx, que reparte a la API Spring WebFlux y a Keycloak; la API usa PostgreSQL y Redis.">
+</picture>
 
 - **Local first de verdad.** La UI solo lee de la base local cifrada. Toda escritura entra primero al teléfono y a un outbox; WorkManager la sincroniza en segundo plano. Sin red, la app funciona igual.
 - **Un solo endpoint de sincronización.** Cada sync es una llamada: sube el outbox y baja todo lo que cambió desde el último cursor, paginado. Los ids nacen en el teléfono (UUIDv7), así un registro se crea sin red y nunca cambia de id.
@@ -132,7 +118,7 @@ Soy el único desarrollador. Hice todo, de punta a punta:
 | Migraciones de base de datos | 26 |
 | Decisiones registradas (ADR) | 14 |
 | Releases | 13 |
-| Commits | 385 desde 2026-11-03 |
+| Commits | 386 desde 2026-11-03 |
 
 ### Últimas versiones
 
