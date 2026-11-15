@@ -15,7 +15,7 @@ Es un proyecto personal que construyo de punta a punta: producto, diseño, app A
 | Infraestructura | `0.3.0` | En producción |
 | Web y landing | — | Scaffold (Angular 22, Astro 7) |
 
-<sub>Última actualización: 2026-11-15 · desde el commit `84090ec` del repo privado.</sub>
+<sub>Última actualización: 2026-11-15 · desde el commit `51ac536` del repo privado.</sub>
 
 ## Capturas
 
@@ -118,7 +118,7 @@ Soy el único desarrollador. Hice todo, de punta a punta:
 | Migraciones de base de datos | 26 |
 | Decisiones registradas (ADR) | 14 |
 | Releases | 13 |
-| Commits | 386 desde 2026-11-03 |
+| Commits | 387 desde 2026-11-03 |
 
 ### Últimas versiones
 
